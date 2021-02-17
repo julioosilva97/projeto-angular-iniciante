@@ -1,0 +1,59 @@
+<h1 class="mt-4">Serviço prestado</h1>
+<ol class="breadcrumb mb-4">
+  <li class="breadcrumb-item active">Novo</li>
+</ol>
+<div class="container">
+  <form #consultaaForm = "ngForm" (ngSubmit)="consultar()">
+    <div class="row">
+      <div class="col-md-6 form-group">
+        <label for="">Nome cliente</label>
+        <input type="text" name="nomeCliente" [(ngModel)] = "nome" id="nomeCliente" class="form-control">
+      </div>
+      <div class="col-md-6 form-group">
+        <label for="">Mês</label>
+        <select [(ngModel)]="mes" name="mes" class="form-control">
+          <option value="">Selecione um mês</option>
+          <option *ngFor="let m of meses" [value]="m"> {{ m }} </option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-primary">Pesquisar</button>
+        <button type="button" class="ml-1 btn btn-warning" routerLink="/servico-prestado-form">Novo</button>
+      </div>
+    </div>
+  </form>
+  <br>
+<div class="row">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="alert alert-warning" role="alert" *ngIf="message">
+         {{ message }}
+        </div>
+      </div>
+    </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Cliente</th>
+          <th scope="col">Descrição</th>
+          <th scope="col">Valor</th>
+          <th scope="col">Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let s of servicosPrestados">
+          <th scope="row">{{ s.id }}</th>
+          <td>{{ s.cliente.nome }}</td>
+          <td>{{ s.descricao }}</td>
+          <td>{{ s.valor }}</td>
+          <td>{{ s.data }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>

@@ -1,3 +1,5 @@
+import { ServicoPrestadoServiceService } from './servico-prestado-service.service';
+import { ServicoPrestadoModule } from './servico-prestado/servico-prestado.module';
 import { ClientesModule } from './clientes/clientes.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -6,6 +8,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TemplateModule } from './template/template.module';
 import { HomeComponent } from './home/home.component'
+import { ClientesService } from './clientes.service'
+import { HttpClientModule } from '@angular/common/http'
 
 @NgModule({
   declarations: [
@@ -15,10 +19,13 @@ import { HomeComponent } from './home/home.component'
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     TemplateModule,
-    ClientesModule
+    ClientesModule,
+    ServicoPrestadoModule
   ],
-  providers: [],
+  providers: [ ClientesService,
+  ServicoPrestadoServiceService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
