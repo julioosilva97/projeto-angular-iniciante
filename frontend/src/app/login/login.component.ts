@@ -1,4 +1,6 @@
+import { Usuario } from './usuario.model';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,13 +10,16 @@ import { Component, OnInit } from '@angular/core';
 export class LoginComponent implements OnInit {
 
 
-  usuario : string | null = null
-  senha : string | null = null
+  usuario : string = "";
+  senha : string  = "";
   isErrorLogin: boolean = false
   isRegister : boolean = false
+  isSuccessRegister : boolean = false
+  errors: string[] = []
 
 
-  constructor() { }
+
+  constructor(private authService : AuthService) { }
 
   ngOnInit(): void {
   }
@@ -28,19 +33,36 @@ export class LoginComponent implements OnInit {
     event.preventDefault();
     this.isErrorLogin = false
     this.isRegister = true;
+    this.errors = []
+    this.isSuccessRegister = false;
+
   }
 
   cancelarCadastro(){
     this.isErrorLogin = false
     this.isRegister = false;
-    this.usuario = null;
-    this.senha = null;
+    this.usuario = "";
+    this.senha = "";
+    this.errors = []
   }
 
   cadastrar(){
     this.isErrorLogin = false
-    console.log(this.usuario)
-    console.log(this.senha)
+    const usuario:Usuario = {
+      usuario : this.usuario ,
+      senha :  this.senha
+    }
+
+    this.authService.salvar(usuario).subscribe(()=>{
+      this.isRegister = false;
+      this.isSuccessRegister = true;
+      this.usuario = "";
+      this.senha = "";
+      this.errors = []
+    },errorReesponse=>{
+      this.isSuccessRegister = false;
+      this.errors = errorReesponse.error.errors;
+    });
   }
 
 }

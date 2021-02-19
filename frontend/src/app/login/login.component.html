@@ -1,4 +1,4 @@
-<div id="layoutAuthentication">
+<div id="layoutAuthentication" class="bg-primary">
   <div id="layoutAuthentication_content">
      <main>
         <div class="container">
@@ -12,14 +12,20 @@
                        <form #loginForm="ngForm" (submit)="login()">
                         <div class="row">
                           <div class="col-md-12">
+                            <div class="alert alert-success" role="alert" *ngIf="isSuccessRegister">
+                              Usuário cadastrado com sucesso, faça o login.
+                             </div>
                             <div class="alert alert-danger" role="alert" *ngIf="isErrorLogin">
                              Usuário ou senha incorreto
                             </div>
+                            <div class="alert alert-danger" role="alert" *ngFor="let error of errors">
+                              {{ error }}
+                             </div>
                         </div>
                         </div>
                           <div class="form-group">
                             <label class="small mb-1" >Login</label>
-                            <input class="form-control py-4" name="usuario" type="text" placeholder="Digite seu login" [(ngModel)]="usuario" />
+                            <input class="form-control py-4" name="usuario" type="text" placeholder="Digite seu login" [(ngModel)]="usuario" autocomplete="off" />
                           </div>
                           <div class="form-group">
                             <label class="small mb-1">Senha</label>
