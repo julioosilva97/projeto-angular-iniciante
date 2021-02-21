@@ -1,6 +1,7 @@
 import { Usuario } from './usuario.model';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,14 +20,18 @@ export class LoginComponent implements OnInit {
 
 
 
-  constructor(private authService : AuthService) { }
+  constructor(private authService : AuthService,
+    private router : Router) { }
 
   ngOnInit(): void {
   }
 
   login(){
-    console.log(this.usuario)
-    console.log(this.senha)
+    this.authService.login(this.usuario, this.senha).subscribe(response=>{
+      const access_token = JSON.stringify(response);
+      localStorage.setItem('access_token',access_token);
+      this.router.navigate(['/home']);
+    }, errorRespose => this.errors = ['Usuario e/ou senha inválidos'])
   }
 
   iniciarCadastro(event:Event){
