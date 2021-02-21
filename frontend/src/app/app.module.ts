@@ -1,3 +1,4 @@
+import { TokenInterceptor } from './token.interceptor';
 import { AuthService } from './auth.service';
 import { FormsModule } from '@angular/forms';
 import { ServicoPrestadoServiceService } from './servico-prestado-service.service';
@@ -11,7 +12,7 @@ import { AppComponent } from './app.component';
 import { TemplateModule } from './template/template.module';
 import { HomeComponent } from './home/home.component'
 import { ClientesService } from './clientes.service'
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { LayoutComponent } from './layout/layout.component'
 
@@ -34,7 +35,12 @@ import { LayoutComponent } from './layout/layout.component'
   providers: [
     ClientesService,
     ServicoPrestadoServiceService,
-    AuthService],
+    AuthService,
+    {
+      provide : HTTP_INTERCEPTORS,
+      useClass : TokenInterceptor,
+      multi : true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
