@@ -1,3 +1,4 @@
+import { AuthGuard } from './auth.guard';
 import { LayoutComponent } from './layout/layout.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
@@ -15,7 +16,11 @@ const routes: Routes = [
     children : [
       {
         path : 'home',
-        component : HomeComponent
+        component : HomeComponent,
+        canActivate : [AuthGuard]
+      },
+      {
+        path:'',redirectTo:'/home',pathMatch:'full'
       }
     ]
   }

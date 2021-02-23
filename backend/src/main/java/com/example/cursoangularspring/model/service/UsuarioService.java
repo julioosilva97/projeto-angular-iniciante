@@ -1,5 +1,6 @@
 package com.example.cursoangularspring.model.service;
 
+import com.example.cursoangularspring.api.excpetion.NegocioException;
 import com.example.cursoangularspring.model.entity.Usuario;
 import com.example.cursoangularspring.model.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,17 @@ public class UsuarioService implements UserDetailsService {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    public Usuario salvar(Usuario usuario){
+       var user = usuarioRepository.findByUsuario(usuario.getUsuario());
+
+       if(user.isPresent()){
+           throw new NegocioException(usuario.getUsuario());
+       }
+
+
+       return usuarioRepository.save(usuario);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

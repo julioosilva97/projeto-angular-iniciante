@@ -1,6 +1,8 @@
 package com.example.cursoangularspring.api;
 
 import com.example.cursoangularspring.api.excpetion.ApiError;
+import com.example.cursoangularspring.api.excpetion.NegocioException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -36,6 +39,15 @@ public class ApplicationControllerAdvice {
         ApiError apiError = new ApiError(message);
 
         return  new ResponseEntity(apiError, codigoStatus);
+
+    }
+
+    @ExceptionHandler(NegocioException.class)
+    public ResponseEntity<Object> handleNegocioException(NegocioException ex, WebRequest request) {
+
+        ApiError apiError = new ApiError(ex.getMessage());
+
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST);
 
     }
 }

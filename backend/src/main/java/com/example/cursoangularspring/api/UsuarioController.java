@@ -2,8 +2,10 @@ package com.example.cursoangularspring.api;
 
 import com.example.cursoangularspring.model.entity.Usuario;
 import com.example.cursoangularspring.model.repository.UsuarioRepository;
+import com.example.cursoangularspring.model.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -13,12 +15,13 @@ import javax.validation.Valid;
 public class UsuarioController {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioService usuarioService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void  salvar(@RequestBody @Valid Usuario usuario){
+    public ResponseEntity<Void> salvar(@RequestBody @Valid Usuario usuario){
 
-        usuarioRepository.save(usuario);
+        usuarioService.salvar(usuario);
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
+
     }
 }
